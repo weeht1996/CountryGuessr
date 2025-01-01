@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+# Trigger the workflow on push or pull request to the main branch
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Runs on the latest Ubuntu environment
+
+    steps:
+      # Checkout the code from GitHub repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js and install dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'  # Specify the version of Node.js to use
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run build command
+      - name: Build the project
+        run: npm run build
+
+      # Optional: Run tests (if you have tests)
+      # - name: Run tests
+      #   run: npm test
+
+      # Deploy to GitHub Pages (optional)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          branch: gh-pages  # The branch to deploy to (e.g., gh-pages)
+          folder: build     # The folder to deploy (e.g., the output of `npm run build`)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token to authenticate
