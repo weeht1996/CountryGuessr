@@ -34,10 +34,10 @@ const GenericModal = ({modalToggle, title, mainBodyText, subBodyText, acceptFn, 
     if (!modalToggle) return null;
 
     return (
-        <div className={`${(modalToggle) ? "modal-open" : 'modal-close'} w-1/4 h-auto rounded-lg bg-slate-400 border border-slate-600 z-10 text-slate-800 transition duration-300`}
+        <div className={`${(modalToggle) ? "modal-open" : 'modal-close'} w-1/3 h-auto rounded-lg bg-slate-400 border border-slate-600 z-10 text-slate-800 transition duration-300`}
         ref={modalRef}
         >
-                <div className="text-lg font-bold">{title}</div>
+                <div className="text-lg font-bold mt-1">{title}</div>
                 <span className="mt-4">{mainBodyText}</span>
                 <span className="mb-4 mx-2 text-sm">*{subBodyText}</span> 
                 <div className="flex justify-end gap-2 mb-2 w-4/5">

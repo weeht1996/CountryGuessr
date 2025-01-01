@@ -10,9 +10,9 @@ export type Country = {
     latlng: [number, number];
     gmaps: string;
     population: number;
+    cca2: `${string}${string}`;
+    gini: Record<string, number>;
     flags: string;
-    points: number;
-    guessed: boolean;
 };
 
 export type DataCountry = {
@@ -52,6 +52,9 @@ export type DataCountry = {
     flag: string;
     maps: CountryMaps;
     population: number;
+    gini: {
+        yearVal: number;
+    }
     fifa: string;
     car: {
         signs: string[];

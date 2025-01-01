@@ -15,7 +15,7 @@ type AttemptLogProp = {
 const AttemptLog = ({attempts, attemptLimit, totalPoints}: AttemptLogProp) => {
     const [attemptsMade, setAttemptsMade] = useState(0); 
     const [attemptsMap, setAttemptsMap] = useState<Attempt[]>([{attemptNo: 999, country: 'Placeholder', result:false}]);
-    const [logExpanded, setLogExpanded] = useState(true);
+    const [logExpanded, setLogExpanded] = useState(false);
 
     useEffect(() => {
         setAttemptsMade(attempts.length);
@@ -26,7 +26,7 @@ const AttemptLog = ({attempts, attemptLimit, totalPoints}: AttemptLogProp) => {
     }, [attemptsMade])
 
     return (
-        <div className="immediate-last w-full lg:w-[1024px] flex flex-col justify-center text-clamp-s text-slate-400 mb-1">
+        <div className="immediate-last w-full lg:w-[1152px] flex flex-col justify-center text-clamp-s text-slate-400 mb-1">
             <div className="top-bar flex w-full gap-2 mb-2">
                 <div className="latest-attempt w-1/6 bg-slate-800 rounded-sm">Previous Attempt: </div>
                 {   (attemptsMade === 0) ? 
@@ -51,7 +51,7 @@ const AttemptLog = ({attempts, attemptLimit, totalPoints}: AttemptLogProp) => {
                                 (attemptsMade > 1) &&
                                 attemptsMap.map((attempt, idx) => (
                                     <div className="log-wrapper flex leading-6" key={idx}>
-                                        <div className="w-1/5 bg-slate-800  text-slate-400 rounded-l-sm text-center ">Attempt#{attempt.attemptNo}</div>
+                                        <div className="w-1/5 bg-slate-800  text-slate-400 rounded-l-sm text-center ">Attempt#{attempt.attemptNo + 1}</div>
                                         <div className={`w-4/5 text-slate-950 rounded-r-sm text-center font-semibold ${(attempt.result) ? 'bg-green-400' : 'bg-red-400'}`} >{attempt.country}</div>
                                     </div>
                                 ))
