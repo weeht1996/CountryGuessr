@@ -1,6 +1,3 @@
-import { GDPDataPoint } from "../types/GDPData";
-
-
 export const fetchRestCountryData = async () => {
     const response = await fetch('https://restcountries.com/v3.1/independent?status=true');
     if (!response.ok) {
