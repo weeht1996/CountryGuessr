@@ -23,7 +23,7 @@ const AttemptLog = ({attempts, attemptLimit, totalPoints}: AttemptLogProp) => {
 
     useEffect(() => {
         if(attemptsMade >= 2) setAttemptsMap([...attempts.slice(0, attemptsMade - 1)].reverse());
-    }, [attemptsMade])
+    }, [attemptsMade, attempts])
 
     return (
         <div className="immediate-last w-full lg:w-[1152px] flex flex-col justify-center text-clamp-s text-slate-400 mb-1">

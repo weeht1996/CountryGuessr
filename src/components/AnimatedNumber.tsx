@@ -5,18 +5,14 @@ const AnimatedNumber = ({ value }: {value: number}) => {
 
   useEffect(() => {
     const duration = 400;
-    const startValue = displayValue;
     const endValue = value;
     const startTime =  performance.now();
 
     const updateValue = (currentTime: number) => {
       const elapsedTime = currentTime - startTime;
-      const progress = Math.min(elapsedTime / duration, 1); // Clamp to 0-1
-      const interpolatedValue = Math.floor(
-        startValue + progress * (endValue - startValue)
-      );
+      const progress = Math.min(elapsedTime / duration, 1); 
 
-      setDisplayValue(interpolatedValue);
+      setDisplayValue((prev) => Math.floor(prev + progress * (endValue - prev)));
 
       if (progress < 1) {
         requestAnimationFrame(updateValue);
@@ -26,7 +22,7 @@ const AnimatedNumber = ({ value }: {value: number}) => {
     requestAnimationFrame(updateValue);
   }, [value]);
 
-  return <span>{displayValue}</span>;
+  return <div>{displayValue}</div>;
 }
 
 export default AnimatedNumber;

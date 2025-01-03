@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import GuideModal from "./GuideModal";
 import HistoryModal from "./HistoryModal";
 import { GameState } from "../types/GameRecord";
@@ -16,7 +16,11 @@ const HeaderBar = ({startNewGame, allRecords, guideModalToggle, setGuideModal}: 
     const clearLocalStorange = () => {
         localStorage.clear();
         window.location.reload();
-    }
+    };
+
+    const closeModal = useCallback(() => {
+        setHistoryModalToggle(false);
+    }, []);
 
     return (
         <div className="flex justify-center items-center gap-2 mb-12 text-slate-300">
@@ -44,7 +48,7 @@ const HeaderBar = ({startNewGame, allRecords, guideModalToggle, setGuideModal}: 
                 <button onClick={() => clearLocalStorange()}>Erase All</button>
             </span>
             <GuideModal toggled={guideModalToggle} closeModal={() => setGuideModal(false)}/>
-            <HistoryModal modalToggle={historyModalToggle} allRecords={allRecords} closeModal={() => setHistoryModalToggle(false)}/>
+            <HistoryModal modalToggle={historyModalToggle} allRecords={allRecords} closeModal={closeModal}/>
         </div>
     )
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Country } from "../types/CountryTypes";
 import AnimatedNumber from "./AnimatedNumber";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
@@ -56,13 +56,12 @@ const CountryHint = ({country, points, isAnswerRevealed, hintLabel, hintName, an
 type CardProps = {
     currentState: CardState,
     isExpanded: boolean,
-    expandAll: boolean,
     expandCard: (toExpand: boolean) => void,
     SubtractPoints: (country: string, hintCost: number, hintName: string, revealAllHints?: boolean) => void,
     handleGiveUp: (countryName: string) => void
 };
 
-const Card = ({currentState, isExpanded, expandAll, expandCard, SubtractPoints, handleGiveUp}: CardProps ) => {
+const Card = ({currentState, isExpanded, expandCard, SubtractPoints, handleGiveUp}: CardProps ) => {
 
     const [hasRevealedAll, setHasRevealedAll] = useState(false);
     const [warningModalOpen, setWarningModalOpen] = useState(false);
@@ -70,7 +69,6 @@ const Card = ({currentState, isExpanded, expandAll, expandCard, SubtractPoints, 
     const [wikiLink, setWikiLink] = useState('Extract not found');
     const [readMore, setReadMore] = useState(false);
     const [dataSetGDP, setDatasetGDP] = useState<GDPChartDataPoint[]>([{year:'9999', value: 0}]);
-    const [error, setError] = useState<string | null>(null);
     const cardRef = useRef<HTMLDivElement | null>(null);
     const country: Country = currentState.country;
 
@@ -78,17 +76,6 @@ const Card = ({currentState, isExpanded, expandAll, expandCard, SubtractPoints, 
         setHasRevealedAll(true);
         setWarningModalOpen(false);
         SubtractPoints(country.name, 0, 'all', true);
-    };
-
-    const panToDiv = () => {
-        if (!cardRef.current) return;
-
-        const cardDiv = cardRef.current;
-        expandCard(true);
-        cardDiv.scrollIntoView({
-            behavior: "smooth",
-        })
-        
     };
 
     const showContent = useMemo(() => {
@@ -106,20 +93,27 @@ const Card = ({currentState, isExpanded, expandAll, expandCard, SubtractPoints, 
                 setWikiLink(wikiObj.link);
                 setDatasetGDP(countryGDP)
             } catch (e) {
-                setError((e as Error).message);
+                console.error(e);
             }
         };
         fetchData();
-    },[])
-
-    useEffect(() => {
-        expandCard(expandAll);
-    }, [expandAll])
+    },[country.name, country.cca2])
 
     useEffect(() => {
         if (!currentState.guessed) return;
+
+        const panToDiv = () => {
+            if (!cardRef.current) return;
+    
+            const cardDiv = cardRef.current;
+            expandCard(true);
+            cardDiv.scrollIntoView({
+                behavior: "smooth",
+            })
+            
+        };
         panToDiv();
-    }, [currentState.guessed])
+    }, [currentState.guessed, expandCard])
 
     useEffect(() => {
         const allHintRevealed = Object.values(currentState.hintState).every(value => value === true);
@@ -228,21 +222,20 @@ type CoutryCardListProps = {
 const CountryCardList = ({cardStates, newGame, onHintReveal, handleGiveUp}: CoutryCardListProps) => {
 
     const [isCardExpanded, setIsCardExpanded] = useState<boolean[]>([false, false, false, false, false]);
-    const [allExpanded, setAllExpanded] = useState(false);
     const [expandButtonState, setExpandButtonState] = useState(true);
     const [resetKey, setResetKey] = useState(0);
 
-    const expandCard = (idx: number, toExpand: boolean) => {
+    const expandCard = useCallback((idx: number, toExpand: boolean) => {
         setIsCardExpanded((prev) => {
             const updated = [...prev];
             updated[idx] = toExpand;
             return updated;
         });
-    };
+    }, []);
 
     const handleExpandAll = () => {
-        setAllExpanded(expandButtonState);
         setExpandButtonState((prev) => !prev);
+        setIsCardExpanded((prev) => prev.fill(expandButtonState));
     };
 
     useEffect(() => {
@@ -252,7 +245,7 @@ const CountryCardList = ({cardStates, newGame, onHintReveal, handleGiveUp}: Cout
         } else if (expandedCards === 0) {
             setExpandButtonState(true);
         }
-    }, [isCardExpanded]);
+    }, [isCardExpanded, cardStates.length]);
 
     useEffect(() => {
         setResetKey((prev) => prev + 1);
@@ -304,7 +297,6 @@ const CountryCardList = ({cardStates, newGame, onHintReveal, handleGiveUp}: Cout
                     SubtractPoints={onHintReveal} 
                     handleGiveUp={handleGiveUp}
                     expandCard={(value: boolean) => expandCard(idx, value)}
-                    expandAll={allExpanded}
                 />
                 
             ))}

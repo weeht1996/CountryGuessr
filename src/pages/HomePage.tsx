@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Select, { StylesConfig, SingleValue } from "react-select";
 import { fetchRestCountryData } from "../services/restCountriesClient";
 import { Country, DataCountry } from "../types/CountryTypes";
@@ -109,33 +109,8 @@ const HomePage = () => {
         }));
     };
 
-    const GameOver = () => {
-        setIsGameOver(true);
-        setIsPostGameModalOpen(true);
-        const updatedData = gameState.cardStates.map((item) => item.guessed ? item: {...item, gaveUp: true});
-        setGameState((prev) => ({
-            ...prev,
-            cardStates: updatedData,
-            dateCompleted: new Date()
-        }));
-    }
-
-    const CloseModal = () => {
-        setIsPostGameModalOpen(false);
-    }
-
-    const getCountryOptions = () => {
-        let allCountries: {value: string, label: string, isDisabled?: boolean}[] = [];
-        data!.forEach(element => {
-            allCountries.push(
-                {
-                    label: element.name.common,
-                    value: element.name.common
-                }
-            );
-        });
-        setCountryOptions(allCountries);
-    };
+    const CloseModal = useCallback(() => setIsPostGameModalOpen(false), []);
+    const CloseGuideModal = useCallback(() => setGuideModalToggle(false), []);
 
     const SubtractPoints = (country: string, hintCost: number, hintName: string, revealAllHints: boolean = false) => {
         const updatedPointsFilteredData = (revealAllHints) ?
@@ -265,33 +240,55 @@ const HomePage = () => {
     }, [newGame]);
 
     useEffect(() => {
-        if (data != null) {
-            if (gameState.cardStates.length === 0 || !Array.isArray(gameState.cardStates)) {
-                filterData(data);
-            }
-            getCountryOptions();
+        if (!data) return;
+
+        const getCountryOptions = () => {
+            let allCountries: {value: string, label: string, isDisabled?: boolean}[] = [];
+            data!.forEach(element => {
+                allCountries.push(
+                    {
+                        label: element.name.common,
+                        value: element.name.common
+                    }
+                );
+            });
+            setCountryOptions(allCountries);
+        };
+
+        if (gameState.cardStates.length === 0) {
+            filterData(data);
         }
-    }, [data]);
+
+        getCountryOptions();
+
+    }, [data, gameState.cardStates.length]);
   
     useEffect(() => {
         if (gameState.completed < 5 && gameState.attempts < maxAttemptLimit) return;
-        GameOver();
+
+        setIsGameOver(true);
+        setIsPostGameModalOpen(true);
+        setGameState((prev) => ({
+            ...prev,
+            cardStates: prev.cardStates.map((item) => item.guessed ? item: {...item, gaveUp: true}),
+            dateCompleted: new Date()
+        }));
 
     }, [gameState.completed, gameState.attempts])
 
     useEffect(() => {
-        if (gameState.dateCompleted && !(gameState === allGames[allGames.length - 1])) {
+        if (gameState.dateCompleted && (gameState.id !== allGames[allGames.length - 1].id)) {
             const updatedAllGames = [...allGames, gameState];
             setAllGames(updatedAllGames);
             localStorage.setItem("AllRecords", JSON.stringify(updatedAllGames));
         } else {
             localStorage.setItem("GameStates", JSON.stringify(gameState));
         }
-    }, [gameState])
+    }, [gameState, allGames])
 
     return (
         <div className="flex flex-col items-center text-slate-300 text-clamp min-h-[101vh] mb-10 relative">
-            <HeaderBar startNewGame={handleNewGame} allRecords={allGames} guideModalToggle={guideModalToggle} setGuideModal={setGuideModalToggle}/>
+            <HeaderBar startNewGame={handleNewGame} allRecords={allGames} guideModalToggle={guideModalToggle} setGuideModal={CloseGuideModal}/>
 
             <div className="user-section flex gap-8 justify-between h-10 w-full lg:w-[1152px] mb-2">
                 <Select

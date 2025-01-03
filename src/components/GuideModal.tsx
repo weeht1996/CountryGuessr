@@ -16,7 +16,7 @@ const GuideModal = ({toggled, closeModal}: GuideModalProps) => {
         if(toggled) document.addEventListener('mousedown', clickedOutside);
         return () => {document.removeEventListener('mousedown', clickedOutside)};
 
-    }, [toggled])
+    }, [toggled, closeModal])
 
     return (
         <div ref={modalRef} className={`${toggled ? 'modal-open' : 'modal-close'} w-1/4 h-auto rounded-lg bg-slate-400 border border-slate-600 z-10 text-slate-800 transition-transform duration-300`}>

@@ -46,7 +46,7 @@ const HistoryModal = ({modalToggle, allRecords, closeModal}: HistoryModalProps) 
             if(modalToggle) document.addEventListener('mousedown', clickedOutside);
             return () => {document.removeEventListener('mousedown', clickedOutside)};
     
-        }, [modalToggle])
+        }, [modalToggle, closeModal])
 
     return (
         <div ref={modalRef} className={`${modalToggle ? 'history-modal-open' : 'modal-close'} w-1/2 h-auto max-h-[75%] rounded-lg bg-slate-400 border border-slate-600 z-10 text-slate-800 transition-transform duration-300`}>
@@ -61,7 +61,7 @@ const HistoryModal = ({modalToggle, allRecords, closeModal}: HistoryModalProps) 
                 </div>
                 <div className="mb-2 overflow-y-auto">
                     { ( historyData.length > 0 ) ?
-                        historyData.map((gameState, idx) => (
+                        historyData.map((gameState) => (
                             <div className="game-record flex flex-col items-center justify-center my-4 text-left">
                                 <span className="ml-3 text-left">
                                     Date completed: {convertDateStringToString(gameState.dateCompleted!)}
@@ -78,7 +78,7 @@ const HistoryModal = ({modalToggle, allRecords, closeModal}: HistoryModalProps) 
                                     <tbody>
                                         {gameState.cardStates.map((card) => (
                                             <tr className="">
-                                                <td>{`${idx}.${card.id}`}</td>
+                                                <td>{`${gameState.id}.${card.id}`}</td>
                                                 <td >{card.country.name}</td>
                                                 <td>{(card.guessed) ? 'Correct' : 'Wrong'}</td>
                                                 <td>{(card.guessed) ? card.points : 0}</td>

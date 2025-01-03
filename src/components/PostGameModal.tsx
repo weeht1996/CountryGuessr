@@ -20,7 +20,7 @@ const PostGameModal = ({totalPoints, correctAnswers, toggled, closeModal}: PostG
         if(toggled) document.addEventListener('mousedown', clickedOutside);
         return () => {document.removeEventListener('mousedown', clickedOutside)};
 
-    }, [toggled])
+    }, [toggled, closeModal])
 
     return (
         <div ref={modalRef} className={`${toggled ? 'modal-open' : 'modal-close'} w-1/4 h-auto rounded-lg bg-slate-800 border border-slate-600 z-10 text-slate-400 transition-transform duration-300`}>
