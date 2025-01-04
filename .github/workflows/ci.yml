@@ -1,11 +1,7 @@
-name: CI/CD Pipeline
+name: Deploy to GitHub Pages
 
-# Trigger the workflow on push or pull request to the main branch
 on:
   push:
-    branches:
-      - master
-  pull_request:
     branches:
       - master
 
@@ -13,35 +9,23 @@ permissions:
   contents: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest  # Runs on the latest Ubuntu environment
+  build-deploy:
+    runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code from GitHub repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Set up Node.js and install dependencies
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'  # Specify the version of Node.js to use
-
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Run build command
-      - name: Build the project
+      - name: Build project
         run: npm run build
-
-      # Optional: Run tests (if you have tests)
-      # - name: Run tests
-      #   run: npm test
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Ensure this is set
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           publish_branch: gh-pages
+          debug: true
