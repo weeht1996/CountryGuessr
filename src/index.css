@@ -53,3 +53,12 @@ code {
   visibility: hidden;
   opacity: 0;
 }
+.footer {
+  span {
+    font-size: smaller;
+  }
+  a {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}
