@@ -36,11 +36,9 @@ jobs:
       # - name: Run tests
       #   run: npm test
 
-      # Deploy to GitHub Pages (optional)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages  # The branch to deploy to (e.g., gh-pages)
-          folder: build     # The folder to deploy (e.g., the output of `npm run build`)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token to authenticate
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Ensure this is set
+          publish_dir: ./build
+          publish_branch: gh-pages
