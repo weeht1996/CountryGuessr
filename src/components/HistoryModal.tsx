@@ -61,8 +61,8 @@ const HistoryModal = ({modalToggle, allRecords, closeModal}: HistoryModalProps) 
                 </div>
                 <div className="mb-2 overflow-y-auto">
                     { ( historyData.length > 0 ) ?
-                        historyData.map((gameState) => (
-                            <div className="game-record flex flex-col items-center justify-center my-4 text-left">
+                        historyData.map((gameState, idx) => (
+                            <div key={`${gameState.id}-${idx}`} className="game-record flex flex-col items-center justify-center my-4 text-left">
                                 <span className="ml-3 text-left">
                                     Date completed: {convertDateStringToString(gameState.dateCompleted!)}
                                 </span>
@@ -77,7 +77,7 @@ const HistoryModal = ({modalToggle, allRecords, closeModal}: HistoryModalProps) 
                                     </thead>
                                     <tbody>
                                         {gameState.cardStates.map((card) => (
-                                            <tr className="">
+                                            <tr key={card.id} className="">
                                                 <td>{`${gameState.id}.${card.id}`}</td>
                                                 <td >{card.country.name}</td>
                                                 <td>{(card.guessed) ? 'Correct' : 'Wrong'}</td>

@@ -24,7 +24,7 @@ const GuideModal = ({toggled, closeModal}: GuideModalProps) => {
             <div className="w-4/5">
                 <ul className="list-disc space-y-3 ml-6 text-left my-6">
                     <li>Your goal is to guess the country </li>
-                    <li>Click on the main bar ???? or the <img src="/images/arrow-down-up-svgrepo-com.svg" alt="updown" className="w-6 h-auto inline"/> to expand the card for hints</li>
+                    <li>Click on the main bar ???? or the <img src={`${process.env.PUBLIC_URL}/images/arrow-down-up-svgrepo-com.svg `}alt="updown" className="w-6 h-auto inline"/> to expand the card for hints</li>
                     <li>Hints can be revealed by trading in points</li>
                     <li>You get 15 attempts total. You can choose to give up, once all 5 countries have been completed, the game ends</li>
                     <li>You can refresh at any point but records will be saved locally regardless</li>

@@ -24,7 +24,7 @@ const PostGameModal = ({totalPoints, correctAnswers, toggled, closeModal}: PostG
 
     return (
         <div ref={modalRef} className={`${toggled ? 'modal-open' : 'modal-close'} w-1/4 h-auto rounded-lg bg-slate-800 border border-slate-600 z-10 text-slate-400 transition-transform duration-300`}>
-            <img className="w-1/5 min-w-10 h-auto m-4" src="/images/celebration.png" alt="celebration-art" loading="lazy"/>
+            <img className="w-1/5 min-w-10 h-auto m-4" src={`${process.env.PUBLIC_URL}/images/celebration.png`} alt="celebration-art" loading="lazy"/>
             <div className="font-bold text-clamp-l m-2">Game Over!</div>
             <div className="m-2 text-clamp">You got {correctAnswers} correct for a total of {totalPoints}pts!</div>
 

@@ -34,7 +34,7 @@ const AttemptLog = ({attempts, attemptLimit, totalPoints}: AttemptLogProp) => {
                     :
                     <div className="attempt-log flex w-full bg-slate-800 rounded-sm">
                         <div className={`w-5/6 text-slate-950 flex items-center justify-center rounded-l-sm font-semibold ${(attempts[attemptsMade - 1].result) ? 'bg-green-400' : 'bg-red-400'}`}>{attempts[attemptsMade - 1].country}</div>
-                        <div className="w-1/6 flex justify-center items-center"><img className="max-h-3 w-auto" src={(attempts[attemptsMade - 1].result) ? '/images/check.png' : '/images/close.png'} alt="result-icon" /></div>
+                        <div className="w-1/6 flex justify-center items-center"><img className="max-h-3 w-auto" src={`${process.env.PUBLIC_URL}${(attempts[attemptsMade - 1].result) ? '/images/check.png' : '/images/close.png'}`} alt="result-icon" /></div>
                     </div> 
                 }
             </div>
