@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/CountryGuessr/static/css/main.2c132077.css",
-    "main.js": "/CountryGuessr/static/js/main.c01f95f6.js",
+    "main.js": "/CountryGuessr/static/js/main.0411cd7a.js",
     "static/js/453.d855a71b.chunk.js": "/CountryGuessr/static/js/453.d855a71b.chunk.js",
     "index.html": "/CountryGuessr/index.html",
     "main.2c132077.css.map": "/CountryGuessr/static/css/main.2c132077.css.map",
-    "main.c01f95f6.js.map": "/CountryGuessr/static/js/main.c01f95f6.js.map",
+    "main.0411cd7a.js.map": "/CountryGuessr/static/js/main.0411cd7a.js.map",
     "453.d855a71b.chunk.js.map": "/CountryGuessr/static/js/453.d855a71b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2c132077.css",
-    "static/js/main.c01f95f6.js"
+    "static/js/main.0411cd7a.js"
   ]
 }
