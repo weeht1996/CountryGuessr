@@ -1,8 +1,8 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 type Store = {
-  count: number
-  inc: () => void
+  count: number;
+  inc: () => void;
 };
 
 const userStore = create<Store>()((set) => ({
