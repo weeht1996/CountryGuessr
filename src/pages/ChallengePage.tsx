@@ -5,11 +5,11 @@ import { Country, DataCountry } from "../types/CountryTypes";
 import CountryCardList from "../components/CountryCardList";
 import AttemptLog from "../components/AttemptLog";
 import PostGameModal from "../components/PostGameModal";
-import HeaderBar from "../components/HeaderBar";
+import ChallengeHeaderBar from "../components/ChallengeHeaderBar";
 import GenericModal from "../components/GenericModal";
 import { CardState, GameState } from "../types/GameRecord";
 
-const HomePage = () => {
+const ChallengePage = () => {
 
     const defaultGameState = {
         id: 0,
@@ -223,7 +223,6 @@ const HomePage = () => {
         if (cachedData) {
             try {
                 setData(JSON.parse(cachedData));
-                console.log('Cached Rest API call ran');
             } catch (e) {
                 console.error("Failed to parse cached data", e);
                 loadData();
@@ -277,7 +276,7 @@ const HomePage = () => {
     }, [gameState.completed, gameState.attempts])
 
     useEffect(() => {
-        if (gameState.dateCompleted && (gameState.id !== allGames[allGames.length - 1].id)) {
+        if (gameState.dateCompleted && (( allGames.length === 0 ) || (gameState.id !== allGames[allGames.length - 1].id))) {
             const updatedAllGames = [...allGames, gameState];
             setAllGames(updatedAllGames);
             localStorage.setItem("AllRecords", JSON.stringify(updatedAllGames));
@@ -287,8 +286,8 @@ const HomePage = () => {
     }, [gameState, allGames])
 
     return (
-        <div className="flex flex-col items-center text-slate-300 text-clamp min-h-[101vh] mb-10 relative">
-            <HeaderBar startNewGame={handleNewGame} allRecords={allGames} guideModalToggle={guideModalToggle} setGuideModal={CloseGuideModal}/>
+        <div className="flex flex-col items-center text-slate-300 text-clamp min-h-[75vh] mb-10 relative">
+            <ChallengeHeaderBar startNewGame={handleNewGame} allRecords={allGames} guideModalToggle={guideModalToggle} setGuideModal={CloseGuideModal}/>
 
             <div className="user-section flex gap-8 justify-between h-10 w-full lg:w-[1152px] mb-2">
                 <Select
@@ -318,4 +317,4 @@ const HomePage = () => {
     );
 }
 
-export default HomePage;
+export default ChallengePage;
