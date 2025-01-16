@@ -31,11 +31,13 @@ const PracticeQuestion = ({
 }: PracticeQuestionProps) => {
   const stdAnswer = useRef<string[]>(Array.isArray(answer) ? answer : [answer]);
   const lowerCaseAnswers = new Set(
-    stdAnswer.current.map((ans) => ans.toLowerCase().replace(/[\s-'.]+/g, '')),
+    stdAnswer.current.map((ans) => ans.toLowerCase().replace(/[\s-'.]+/g, "")),
   );
 
   const verifyInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const userAnswer = event.target.value.toLowerCase().replace(/[\s-'.]+/g, '');
+    const userAnswer = event.target.value
+      .toLowerCase()
+      .replace(/[\s-'.]+/g, "");
     if (lowerCaseAnswers.has(userAnswer)) updateQns();
   };
 
@@ -439,7 +441,10 @@ const PracticePage = () => {
       try {
         const result = await fetchRestCountryData();
         data.current = result;
-        localStorage.setItem("countryRestApiData", JSON.stringify(result));
+        localStorage.setItem(
+          "countryRestApiData",
+          btoa(JSON.stringify(result)),
+        );
         filterCountries(result);
       } catch (error: any) {
         console.error(error);
@@ -449,8 +454,8 @@ const PracticePage = () => {
     const cachedData = localStorage.getItem("countryRestApiData");
     if (cachedData) {
       try {
-        data.current = JSON.parse(cachedData);
-        filterCountries(JSON.parse(cachedData));
+        data.current = JSON.parse(atob(cachedData));
+        filterCountries(JSON.parse(atob(cachedData)));
       } catch (e) {
         console.error("Failed to parse cached data", e);
         loadData();

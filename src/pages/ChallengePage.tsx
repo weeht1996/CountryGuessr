@@ -252,7 +252,10 @@ const ChallengePage = () => {
       try {
         const result = await fetchRestCountryData();
         setData(result);
-        localStorage.setItem("countryRestApiData", JSON.stringify(result));
+        localStorage.setItem(
+          "countryRestApiData",
+          btoa(JSON.stringify(result)),
+        );
       } catch (error: any) {
         console.error(error);
       }
@@ -261,7 +264,7 @@ const ChallengePage = () => {
     const cachedData = localStorage.getItem("countryRestApiData");
     if (cachedData) {
       try {
-        setData(JSON.parse(cachedData));
+        setData(JSON.parse(atob(cachedData)));
       } catch (e) {
         console.error("Failed to parse cached data", e);
         loadData();
