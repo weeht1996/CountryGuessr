@@ -13,6 +13,7 @@ import {
 } from "../services/restCountriesClient";
 import TrendChart from "../components/TrendChart";
 import { CardState } from "../types/GameRecord";
+import { Base64 } from "js-base64";
 
 type PracticeQuestionProps = {
   label: string;
@@ -158,10 +159,15 @@ const PracticeCard = ({
         setDatasetGDP(countryGDP);
 
         const cachedGDPData = localStorage.getItem("GDP_API_DATA");
-        const GDPData = cachedGDPData ? JSON.parse(cachedGDPData) : {};
+        const GDPData = cachedGDPData
+          ? JSON.parse(Base64.decode(cachedGDPData))
+          : {};
 
         GDPData[country.cca2] = countryGDP;
-        localStorage.setItem("GDP_API_DATA", JSON.stringify(GDPData));
+        localStorage.setItem(
+          "GDP_API_DATA",
+          Base64.encode(JSON.stringify(GDPData)),
+        );
       } catch (e) {
         console.error("Error fetching GDP data:", e);
       }
@@ -170,7 +176,7 @@ const PracticeCard = ({
     const cachedGDPData = localStorage.getItem("GDP_API_DATA");
 
     if (cachedGDPData) {
-      const GDPData = JSON.parse(cachedGDPData);
+      const GDPData = JSON.parse(Base64.decode(cachedGDPData));
 
       if (GDPData[country.cca2]) {
         setDatasetGDP(GDPData[country.cca2]);
@@ -443,7 +449,7 @@ const PracticePage = () => {
         data.current = result;
         localStorage.setItem(
           "countryRestApiData",
-          btoa(JSON.stringify(result)),
+          Base64.encode(JSON.stringify(result)),
         );
         filterCountries(result);
       } catch (error: any) {
@@ -454,8 +460,8 @@ const PracticePage = () => {
     const cachedData = localStorage.getItem("countryRestApiData");
     if (cachedData) {
       try {
-        data.current = JSON.parse(atob(cachedData));
-        filterCountries(JSON.parse(atob(cachedData)));
+        data.current = JSON.parse(Base64.decode(cachedData));
+        filterCountries(JSON.parse(Base64.decode(cachedData)));
       } catch (e) {
         console.error("Failed to parse cached data", e);
         loadData();

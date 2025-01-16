@@ -8,6 +8,7 @@ import PostGameModal from "../components/PostGameModal";
 import ChallengeHeaderBar from "../components/ChallengeHeaderBar";
 import GenericModal from "../components/GenericModal";
 import { CardState, GameState } from "../types/GameRecord";
+import { Base64 } from "js-base64";
 
 const ChallengePage = () => {
   const defaultGameState = {
@@ -38,12 +39,14 @@ const ChallengePage = () => {
   const [gameState, setGameState] = useState<GameState>(() => {
     const existingGameState = localStorage.getItem("GameStates");
     setGuideModalToggle(!Boolean(existingGameState));
-    return existingGameState ? JSON.parse(existingGameState) : defaultGameState;
+    return existingGameState
+      ? JSON.parse(Base64.decode(existingGameState))
+      : defaultGameState;
   });
   const [allGames, setAllGames] = useState<GameState[]>(() => {
     const allRecords = localStorage.getItem("AllRecords");
     setGuideModalToggle(!Boolean(allRecords));
-    return allRecords ? JSON.parse(allRecords) : [];
+    return allRecords ? JSON.parse(Base64.decode(allRecords)) : [];
   });
   const selectRef = useRef<any>(null);
   const maxAttemptLimit = 15;
@@ -254,7 +257,7 @@ const ChallengePage = () => {
         setData(result);
         localStorage.setItem(
           "countryRestApiData",
-          btoa(JSON.stringify(result)),
+          Base64.encode(JSON.stringify(result)),
         );
       } catch (error: any) {
         console.error(error);
@@ -264,7 +267,7 @@ const ChallengePage = () => {
     const cachedData = localStorage.getItem("countryRestApiData");
     if (cachedData) {
       try {
-        setData(JSON.parse(atob(cachedData)));
+        setData(JSON.parse(Base64.decode(cachedData)));
       } catch (e) {
         console.error("Failed to parse cached data", e);
         loadData();
@@ -326,9 +329,15 @@ const ChallengePage = () => {
     ) {
       const updatedAllGames = [...allGames, gameState];
       setAllGames(updatedAllGames);
-      localStorage.setItem("AllRecords", JSON.stringify(updatedAllGames));
+      localStorage.setItem(
+        "AllRecords",
+        Base64.encode(JSON.stringify(updatedAllGames)),
+      );
     } else {
-      localStorage.setItem("GameStates", JSON.stringify(gameState));
+      localStorage.setItem(
+        "GameStates",
+        Base64.encode(JSON.stringify(gameState)),
+      );
     }
   }, [gameState, allGames]);
 
