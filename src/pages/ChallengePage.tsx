@@ -38,7 +38,7 @@ const ChallengePage = () => {
   const [guideModalToggle, setGuideModalToggle] = useState(false);
   const [gameState, setGameState] = useState<GameState>(() => {
     const existingGameState = localStorage.getItem("GameStates");
-    setGuideModalToggle(!Boolean(existingGameState));
+    setGuideModalToggle(existingGameState === null);
     return existingGameState
       ? JSON.parse(Base64.decode(existingGameState))
       : defaultGameState;
@@ -342,7 +342,7 @@ const ChallengePage = () => {
   }, [gameState, allGames]);
 
   return (
-    <div className="flex flex-col items-center text-slate-300 text-clamp min-h-[75vh] mb-10 relative">
+    <div className="w-full flex flex-col items-center text-slate-300 text-clamp min-h-[75vh] mb-10 relative">
       <ChallengeHeaderBar
         startNewGame={handleNewGame}
         allRecords={allGames}
@@ -350,7 +350,7 @@ const ChallengePage = () => {
         setGuideModal={CloseGuideModal}
       />
 
-      <div className="user-section flex gap-8 justify-between h-10 w-full lg:w-[1152px] mb-2">
+      <div className="user-section flex gap-1 sm:gap-8 justify-between h-10 w-full max-w-[1152px] mb-2">
         <Select
           ref={selectRef}
           className="w-11/12"

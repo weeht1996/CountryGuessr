@@ -8,7 +8,7 @@ import PracticePage from "./pages/PracticePage";
 
 function App() {
   return (
-    <div className="App flex flex-col min-h-screen">
+    <div className="App flex flex-col min-h-screen max-w-screen">
       <header>
         <Header />
       </header>
@@ -16,6 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<ChallengePage />} />
           <Route path="/practice" element={<PracticePage />} />
+          {/* 404 reroutes */}
+          <Route path="*" element={<ChallengePage />} />
         </Routes>
       </main>
       <footer>

@@ -33,7 +33,7 @@ const AttemptLog = ({
   }, [attemptsMade, attempts]);
 
   return (
-    <div className="immediate-last w-full lg:w-[1152px] flex flex-col justify-center text-clamp-s text-slate-400 mb-1">
+    <div className="immediate-last w-full max-w-[1152px] flex flex-col justify-center text-clamp-s text-slate-400 mb-1">
       <div className="top-bar flex w-full gap-2 mb-2">
         <div className="latest-attempt w-1/6 bg-slate-800 rounded-sm">
           Previous Attempt:{" "}

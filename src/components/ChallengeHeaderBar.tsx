@@ -23,7 +23,7 @@ const ChallengeHeaderBar = ({
   }, []);
 
   return (
-    <div className="flex justify-center items-center gap-2 mb-12 text-slate-300">
+    <div className="flex justify-center items-center sm:gap-2 mb-12 text-slate-300">
       <span
         className="h-7 w-7 hover:animate-spin bg-slate-300 text-black hover:bg-slate-500 hover:border-slate-500 cursor-pointer rounded-full flex items-center justify-center"
         onClick={startNewGame}

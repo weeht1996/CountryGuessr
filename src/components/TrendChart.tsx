@@ -10,7 +10,13 @@ const TrendChart = ({ data }: { data: GDPChartDataPoint[] }) => {
   }
 
   return (
-    <LineChart key={JSON.stringify(data)} width={48} height={30} data={data}>
+    <LineChart
+      key={JSON.stringify(data)}
+      width={48}
+      height={30}
+      data={data}
+      className="mr-6"
+    >
       <YAxis hide domain={[minValue, maxValue]} />
       <Line
         type="monotone"

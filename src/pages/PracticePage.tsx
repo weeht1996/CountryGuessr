@@ -43,13 +43,13 @@ const PracticeQuestion = ({
   };
 
   return (
-    <div className="flex gap-2 items-center">
-      <label className="font-semibold">
+    <div className="practice-qns-container flex gap-2 items-center w-full">
+      <label className="font-semibold w-full flex">
         {label}:<span className="mr-2"></span>
         {interactiveMode && !revealAnswer ? (
-          <div className="inline">
+          <div className="inline flex-grow">
             <input
-              className="rounded bg-slate-400 text-slate-800 w-40 h-4 indent-1 my-1"
+              className="rounded bg-slate-400 text-slate-800  h-4 indent-1 my-1"
               type="text"
               onChange={(e) => verifyInput(e)}
             />
@@ -61,7 +61,7 @@ const PracticeQuestion = ({
         )}
         {revealAnswer && interactiveMode && (
           <img
-            className="max-h-3 w-auto inline ml-2"
+            className="max-h-3 w-auto inline"
             src={`${process.env.PUBLIC_URL}/images/check.png `}
             alt="result-icon"
           />
@@ -192,7 +192,7 @@ const PracticeCard = ({
     <div className="card-container bg-slate-800 text-slate-300 rounded-md">
       <div className="rounded-md relative items-center">
         <div className="title-body flex">
-          <div className="m-4 flex flex-col justify-center">
+          <div className="ml-2 flex flex-col justify-center">
             <div className="title-bar text-clamp-l font-semibold">
               {country.name}
             </div>
@@ -202,7 +202,7 @@ const PracticeCard = ({
               alt="country flag"
             />
           </div>
-          <div className="flex flex-col items-start mx-4 text-clamp justify-center text-left">
+          <div className="flex flex-col items-start mx-2 text-clamp justify-center text-left">
             <div className="flex justify-start mt-2">
               <label className="font-semibold mr-1">GDP Per Cap:</label>
               {dataSetGDP[0].year},{" "}
@@ -212,7 +212,7 @@ const PracticeCard = ({
               )}
             </div>
             {practiceQns.map((qns, id) => (
-              <div key={id}>
+              <div className="w-full" key={id}>
                 <PracticeQuestion
                   label={qns.label}
                   answer={qns.answer}
@@ -473,7 +473,7 @@ const PracticePage = () => {
 
   return (
     <div className="practice-container flex justify-center">
-      <div className="practice-body w-full lg:w-[1152px] flex flex-col gap-2 items-center justify-center">
+      <div className="practice-body w-full max-w-[1152px] flex flex-col gap-2 items-center justify-center">
         <div className="flex w-full my-4">
           <button
             className={`w-1/2 rounded ${interactiveMode ? "bg-slate-600" : "bg-slate-300"} `}
@@ -489,11 +489,11 @@ const PracticePage = () => {
           </button>
         </div>
         <div className="flex flex-col items-center w-full text-slate-300">
-          <div className="top-bar flex justify-between bg-slate-700 rounded-md w-full">
-            <div className="filters-container flex items-center mx-2 gap-2">
+          <div className="top-bar flex flex-wrap gap-y-1 p-2 justify-between bg-slate-700 rounded-md w-full">
+            <div className="filters-container flex flex-wrap items-center mx-2 gap-2">
               <span>Filter by </span>
               <label htmlFor="region-select">
-                <span className="mx-1">Region</span>
+                <span className="mx-1 text-clamp-l font-semibold">Region</span>
                 <select
                   className="text-slate-600 bg-slate-400 rounded-sm"
                   id="region-select"
@@ -512,7 +512,9 @@ const PracticePage = () => {
                 </select>
               </label>
               <label htmlFor="subregion-select">
-                <span className="mx-1">Subregion</span>
+                <span className="mx-1 text-clamp-l font-semibold">
+                  Subregion
+                </span>
                 <select
                   className="text-slate-600 bg-slate-400 rounded-sm"
                   id="subregion-select"
@@ -531,7 +533,7 @@ const PracticePage = () => {
                 </select>
               </label>
             </div>
-            <div className="right-bar flex items-center text-clamp gap-1 my-1">
+            <div className="right-bar flex items-center text-clamp gap-1 mx-2">
               <span className="mr-2">
                 Completed {currentDone}/{totalCards}
               </span>

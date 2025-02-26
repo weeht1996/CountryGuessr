@@ -23,7 +23,7 @@ const GuideModal = ({ toggled, closeModal }: GuideModalProps) => {
   return (
     <div
       ref={modalRef}
-      className={`${toggled ? "modal-open" : "modal-close"} w-1/4 h-auto rounded-lg bg-slate-400 border border-slate-600 z-10 text-slate-800 transition-transform duration-300`}
+      className={`${toggled ? "modal-open" : "modal-close"} sm:w-auto w-11/12 h-auto rounded-lg bg-slate-400 border border-slate-600 z-10 text-slate-800 transition-transform duration-300`}
     >
       <h1 className="text-clamp-l mt-6 flex justify-center font-extrabold">
         Guess the Country
